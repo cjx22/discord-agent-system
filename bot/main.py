@@ -23,6 +23,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(f"Missing argument: `{error.param.name}`. Try: `!{ctx.command} <text>`")
         return
+    
 
     # Unknown command (optional—comment out if you don't want this)
     if isinstance(error, commands.CommandNotFound):
