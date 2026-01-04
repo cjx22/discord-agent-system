@@ -4,6 +4,7 @@ import os
 
 from bot.commands.ping import ping
 from bot.commands.echo import echo
+from bot.commands.admin import say
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -24,6 +25,9 @@ async def on_command_error(ctx, error):
         await ctx.send(f"Missing argument: `{error.param.name}`. Try: `!{ctx.command} <text>`")
         return
     
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You don’t have permission to use that command.")
+        return
 
     # Unknown command (optional—comment out if you don't want this)
     if isinstance(error, commands.CommandNotFound):
@@ -44,6 +48,7 @@ async def on_ready():
 
 bot.add_command(ping)
 bot.add_command(echo)
+bot.add_command(say)
 
 if __name__ == "__main__":
     token = os.getenv("DISCORD_TOKEN")
