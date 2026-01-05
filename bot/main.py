@@ -5,6 +5,7 @@ import os
 from bot.commands.ping import ping
 from bot.commands.echo import echo
 from bot.commands.admin import say
+from bot.commands.admin import purge
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -28,7 +29,11 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("You don’t have permission to use that command.")
         return
-
+    
+    if isinstance(error, commands.BadArgument):
+        await ctx.send("Bad argument. Example usage: `!purge 10`")
+        return
+    
     # Unknown command (optional—comment out if you don't want this)
     if isinstance(error, commands.CommandNotFound):
         return  # silently ignore unknown commands
@@ -49,6 +54,7 @@ async def on_ready():
 bot.add_command(ping)
 bot.add_command(echo)
 bot.add_command(say)
+bot.add_command(purge)
 
 if __name__ == "__main__":
     token = os.getenv("DISCORD_TOKEN")
